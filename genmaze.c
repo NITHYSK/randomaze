@@ -6,39 +6,39 @@
 #define dir_left	1
 #define dir_down	2
 #define dir_up		3
-#define init_x	1
-#define init_y	1
+#define init_x	1			// マップ生成時の初期位置
+#define init_y	1		// 最も左上をx=0, y=0として扱う。
 
 #include "genmaze.h"
 #include "showmaze.h"
 #include <stdlib.h>	// for srand()
 #include <time.h>	// for seed
 
-int fill(int, Mat *);
-int _4dise();
-int ndise(int);
-int randig(Mat *, int, int);
-Road *dig2(Mat *, int, int, int);
-int lookElem(Mat *, int, int);
-int ahead(Mat *, int, int, int);
-int isDeadEnd(Mat *, int, int);
-int isGenComp(Mat *);
-Road *getRandRoad(Road *);
+int fill(int, Mat *);			// Mat内の行列を指定された整数で塗りつぶす
+int _4dise();				// 4面ダイス
+int ndise(int);				// n面ダイス
+int randig(Mat *, int, int);		// 
+Road *dig2(Mat *, int, int, int);	// 
+int lookElem(Mat *, int, int);		//
+int ahead(Mat *, int, int, int);	//
+int isDeadEnd(Mat *, int, int);		// 指定された地点(x,y)が行き止まりでなければ0を返す。
+int isGenComp(Mat *);			// 迷路の作成が完了していない場合は0を返す。
+Road *getRandRoad(Road *);		// 
 
 Road *headroad;
 Road *oddpos;
 
-Mat *genMaze(int rows, int cols)
+Mat *genMaze(int rows, int cols)		// 指定された行数rowsと列数colsの行列を生成し、そのポインタを返す。
 {
-	Mat *maze = (Mat *)malloc(sizeof(Mat));
-	maze->rows	= rows;
-	maze->cols	= cols;
-	maze->mat	= (int *)calloc(rows*cols, sizeof(int));
-	fill(1, maze);
-	return maze;
+	Mat *maze = (Mat *)malloc(sizeof(Mat));	// 生成したい迷路の構造体インスタンスをメモリに確保
+	maze->rows	= rows;			// 行数を行列の構造体に渡す
+	maze->cols	= cols;			// 列数を行列の構造体に渡す
+	maze->mat	= (int *)calloc(rows*cols, sizeof(int));	// 行*列サイズの整数配列を確保。callocは確保したメモリを0で塗りつぶす。
+	fill(1, maze);				// 確保した構造体の行列を1で塗りつぶす
+	return maze;				// 1で塗りつぶされたrows行cols列の行列を返す。
 }
 
-Mat *initMaze(Mat *maze)
+Mat *initMaze(Mat *maze)			//
 {
 	headroad = newRoad(init_x, init_y, (Road *)NULL);
 	setElem(0, maze, init_x, init_y);
@@ -46,7 +46,7 @@ Mat *initMaze(Mat *maze)
 	return maze;
 }
 
-Mat *updateMaze(Mat *maze)
+Mat *updateMaze(Mat *maze)			// 穴掘り法により迷路を生成する。
 {
 	int x=1;
 	int y=1;
@@ -60,7 +60,7 @@ Mat *updateMaze(Mat *maze)
 	return maze;
 }
 
-Mat *digMaze(Mat *maze, int x, int y)
+Mat *digMaze(Mat *maze, int x, int y)		
 {
 	disp_debug("start");
 
