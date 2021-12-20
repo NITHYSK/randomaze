@@ -7,6 +7,7 @@
 
 #define ERROR_ARGC	0xAC15D1FF
 #define ERROR_BADSIZE	0xBAD512E
+#define ERROR_NOTODD	0x2070DD
 
 #define default_width	17
 #define default_height	17
@@ -18,6 +19,10 @@ int main(int argc, char **argv)
 	if(argc != 3 && argc != 1)
 	{
 		error(ERROR_ARGC, "Number of argments is different .");
+	}
+	if(!argv[1]%2 || !argv[2]%2)
+	{
+		error(ERROR_NOTODD, "コマンドライン引数には奇数を入力してください");
 	}
 
 	Mat *maze;
