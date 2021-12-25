@@ -5,6 +5,8 @@
 #ifndef __SHOWMAZE_H__
 #define __SHOWMAZE_H__
 
+#define ESC	0x1B		//エスケープシーケンス用
+
 #include "debug.h"
 #include "matrix.h"
 

@@ -1,19 +1,25 @@
 CC	= gcc
 CFLAGS	= --std=c11
-SRCS	= $(wildcard ./*.c)
-OBJS	= $(SRCS:.c=.o)
-TARGET	= randomaze.out
+INCLUDE	= ./include
+SRC	= ./src
+OBJ	= ./obj
+TARGET	= ./randomaze.out
+STDAFX	= $(INCLUDE)/stdafx.h
+SRCS	= $(wildcard $(SRC)/*.c)
+OBJS	= $(subst $(SRC),$(OBJ),$(SRCS:.c=.o))
 
 $(TARGET)	: $(OBJS)
 	$(CC) $(CFLAGS) $^ -o $(TARGET)
 
-$(OBJS) : stdafx.h
+$(OBJS)		: $(OBJ)/%.o: $(SRC)/%.c $(STDAFX)
+	$(CC) $(CFLAGS) -I$(INCLUDE) -c -o $@ $<
 
-test	: $(TARGET)
-	./$(TARGET) 21 71
+test		: $(TARGET)
+	./$(TARGET) 21 51
 
-clean	:
-	rm ./*.o ./$(TARGET)
+clean		:
+	rm $(OBJS)
+	rm $(TARGET)
 
 .PHONY	: test clean
 

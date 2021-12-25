@@ -11,7 +11,6 @@
 
 #define default_width	17		// 生成したい迷路のデフォルトの幅
 #define default_height	17		// 生成したい迷路のデフォルトの高さ
-
 #include "stdafx.h"			// make時にstdafx.hを参照することで、更新が必要なファイルを判断する。
 
 /* MAIN */
